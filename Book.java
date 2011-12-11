@@ -21,7 +21,7 @@ public class Book {
       *location, call number, barcode number, and status
     **/
     public Book(String title, String author, String yearPublished, String branchLocation, String callNumber, 
-                String barcodeNumber, String status, boolean isOverdue, double overdueFee) {
+                String barcodeNumber, String status) {
        this.title = title;
        this.author = author; 
        this.yearPublished = yearPublished;

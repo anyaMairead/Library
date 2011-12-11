@@ -1,7 +1,7 @@
 /**AUTHOR: Laurence Toal
   *CLASS: CS 230 Data Structures
-  *Final Project Phase 2 - Class outlines
-  *LAST MODIFIED: 27 November 2011
+  *Final Project - Library class for organizing Books and Patrons
+  *LAST MODIFIED: 11 December 2011
 **/
 
 import java.util.*;
@@ -60,14 +60,16 @@ public class Library {
             titleIndex.put(searchTitle, new ArrayList<Book>());
         }
         
-        String[] authorKeyWords = b.getAuthor().toLowerCase().split("\\s+");
-        if (authorIndex.containsKey(searchAuthor)) {
-            authorIndex.put(searchAuthor, new ArrayList<Book>());
-            authorIndex.get(searchAuthor).add(b);
-        } else {
-            authorIndex.put(searchAuthor, new ArrayList<Book>());
-        }
-       
+        String authorNames = b.getAuthor().toLowerCase().replaceAll(" and ", "").trim(); //for handling multiple-author books
+        String[] authorWords = authorNames.split("\\s+");
+        for (String term: authorWords) {
+            if (!authorIndex.containsKey(term)) {
+                authorIndex.put(term, new ArrayList<Book>());
+            } else {
+                authorIndex.get(term).add(b);
+            }
+        } 
+
         String searchBarcode = b.getBarcodeNumber();
         if (barcodeIndex.containsKey(searchBarcode)) {
             barcodeIndex.put(searchBarcode, new ArrayList<Book>());
@@ -111,9 +113,9 @@ public class Library {
     public void makeArrayListOfBooks(String filename) throws IOException { 
         Scanner scan = new Scanner(new File(filename));
         while (scan.hasNextLine()) {
-            //read in each line, split on commas, and create a Book object out of the information
-            //then add the book to the ArrayList books
-            //expand the ArrayList if needed
+            String[] tokens = scan.nextLine().split("\\s*,\\s*");
+            Book book = new Book(tokens[0], tokens[1], tokens[2], tokens[3], tokens[4], tokens[5], tokens[6]);
+            addBook(book);
         }
         scan.close();
     }
@@ -126,9 +128,9 @@ public class Library {
     public void makeArrayListOfPatrons(String filename) throws IOException { 
         Scanner scan = new Scanner(new File(filename));
         while (scan.hasNextLine()) {
-            String patron = //read in each line, split on commas, and create a Patron object out of the information
-            //then add the book to the ArrayList books
-            //expand the ArrayList if needed
+            String[] tokens = scan.nextLine().split("\\s*,\\s*");
+            Patron patron = new Patron(tokens[0], tokens[1]);
+            addPatron(patron); 
         }
         scan.close();
     }
@@ -139,8 +141,12 @@ public class Library {
       *@param title the title to search for
     **/
     public List<Book> findBooksByTitle(String title) {
-        //placeholder
-        return new ArrayList<Book>();
+        title = title.toLowerCase().replaceAll(" ", "");
+        if (titleIndex.containsKey(title)) { //we've found a match
+            return titleIndex.get(title);
+        } else { //we don't have a book with that title, return empty list
+            return new ArrayList<Book>();
+        }
     }
     
     /**Displays the result of a search for a book by an author
@@ -148,7 +154,14 @@ public class Library {
       *@param author the author to search for
     **/
     public List<Book> findBooksByAuthor(String author) {
-        //placeholder
+        author = author.toLowerCase();
+        String[] authorWords = author.split("\\P{L}+"); //tokenize
+        for (String term: authorWords) {
+            if (authorIndex.containsKey(term)) {
+                return authorIndex.get(term);
+            }
+        } 
+        //otherwise there's no match                                                   
         return new ArrayList<Book>();
     }
    
@@ -157,7 +170,10 @@ public class Library {
       *@param barcode the barcode number to search for
     **/
     public List<Book> findBooksByBarcode(String barcode) {
-        //placeholder
-        return new ArrayList<Book>();
+        if (barcodeIndex.containsKey(barcode)) { //we've found a match
+            return barcodeIndex.get(barcode);
+        } else { //we don't have a book with that barcode, return empty list
+            return new ArrayList<Book>();
+        }
     } 
 }
