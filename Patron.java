@@ -66,5 +66,13 @@ public class Patron {
     **/
     public LinkedList<Book> getRequestedBooks() {
         return requested;
-    } 
+    }
+
+    /**Returns a string representation of a patron
+      *
+      *@return a string representation of a patron
+    **/
+    public String toString() {
+        return "Name: " + name + "\nLibrary Card Number: " + cardNumber + "\nBooks Checked Out: " + checkedOut + "\nBooks Overdue: " + overdue + "\nBooks Requested: " + requested;
+    }
 }

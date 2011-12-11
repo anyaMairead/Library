@@ -131,6 +131,13 @@ public class Book {
         this.overdueFee = daysOverdue*0.50;
         return overdueFee;
     }
- 
+
+    /**Returns a string representation of the book
+      *
+      *@return a string represenaiton of the book
+    **/
+    public String toString() {
+        return "Title: " + title + "\nAuthor: " + author + "\nYear Published: " + yearPublished + "\nLibrary: " + branchLocation + "\nCall Number: " + callNumber + "\tBarcode: " + barcodeNumber + "\nOverdue? " + isOverdue + "\tFine: " + overdueFee; 
+    }
  
 }
