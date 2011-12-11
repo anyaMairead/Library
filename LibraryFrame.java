@@ -6,14 +6,41 @@
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.*;
 import java.util.*;
 
-public class LibraryFrame extends JFrame {
+public class LibraryFrame extends JFrame implements ActionListener {
   
-    JPanel cards;
-    
+    private JPanel cards, initialPanel, bookSearchResultPanel, bookFullInfoPanel, patronSearchResultPanel, patronFullInfoPanel, bookPanel, patronPanel;
+    private JLabel welcomeLabel, bookSearchResultsLabel, patronSearchResultsLabel, selectLabel;
+    private JButton patronSearchButton, bookSearchButton, goButton;    
+    private JComboBox categories;
+
     public LibraryFrame() {
-        //create a cardlayout and add each of the panels below to it
+        selectLabel = new JLabel("Select a category to search by");
+        selectLabel.setForeground(Color.blue);
+        selectLabel.setFont(new Font("Times", Font.ITALIC, 12));
+
+        goButton = new JButton("Search");
+        goButton.addActionListener(this);
+        goButton.setBackground(new Color(132, 112, 255));
+
+        initialPanel = makeInitialPanel();
+        bookPanel = makeBookPanel();
+        patronPanel = makePatronPanel();
+        bookSearchResultPanel = makeBookSearchResultPanel();
+        patronSearchResultPanel = makePatronSearchResultPanel();
+        bookFullInfoPanel = makeBookFullInfoPanel();
+        patronFullInfoPanel = makePatronFullInfoPanel();
+
+        cards = new JPanel(new CardLayout());
+        cards.add(initialPanel);
+        cards.add(bookPanel);
+        cards.add(patronPanel);
+        cards.add(bookSearchResultPanel);
+        cards.add(patronSearchResultPanel);
+        cards.add(bookFullInfoPanel);
+        cards.add(patronFullInfoPanel);
     }
     
     //Make JPanels for each different screen of the GUI
@@ -23,7 +50,12 @@ public class LibraryFrame extends JFrame {
       *@return a JPanel
     **/
     public JPanel makeBookFullInfoPanel() {
-        return new JPanel();
+        bookFullInfoPanel = new JPanel();
+        
+        //want this to be string representation of the book they just clicked on
+        //JLabel bookInfo = new JLabel(b.toString()); //where b is the book
+        //bookFullInfoPanel.add(bookInfo);
+        return bookFullInfoPanel;
     }
     
     /**Makes the JPanel for the result of searching for a book
@@ -31,6 +63,14 @@ public class LibraryFrame extends JFrame {
       *@return a JPanel
     **/
     public JPanel makeBookSearchResultPanel() {
+        JPanel bookSearchResult = new JPanel();
+        
+        bookSearchResultsLabel = new JLabel("Result of search through book catalogue...");
+        bookSearchResultsLabel.setForeground(Color.blue);
+        bookSearchResultsLabel.setFont(new Font("Times", Font.PLAIN, 12));
+
+        bookSearchResult.add(bookSearchResultsLabel);
+
         return new JPanel();
     }
     
@@ -39,7 +79,15 @@ public class LibraryFrame extends JFrame {
       *@return a JPanel
     **/
     public JPanel makePatronSearchResultPanel() {
-        return new JPanel();
+        JPanel patronSearchResult = new JPanel();
+
+        patronSearchResultsLabel = new JLabel("Result of search through patron catalogue...");
+        patronSearchResultsLabel.setForeground(Color.blue);
+        patronSearchResultsLabel.setFont(new Font("Times", Font.PLAIN, 12));
+
+        patronSearchResult.add(patronSearchResultsLabel);
+
+        return patronSearchResult;
     }
       
     /**Makes the JPanel for detailed info on a patron
@@ -47,7 +95,12 @@ public class LibraryFrame extends JFrame {
       *@return a JPanel
     **/
     public JPanel makePatronFullInfoPanel() {
-       return new JPanel();
+       JPanel patronFullInfoResult = new JPanel();
+       
+       //JLabel patronLabel = new JLabel(p.toString);
+       //patronFullInfoResult.add(patronLabel);
+
+       return patronFullInfoResult;
     }
     
     /**Makes the JPanel for the initial screen
@@ -55,7 +108,25 @@ public class LibraryFrame extends JFrame {
       *@return a JPanel
     **/   
     public JPanel makeInitialPanel() {
-        return new JPanel();
+        JPanel initialPanel = new JPanel();
+        
+        welcomeLabel = new JLabel("Welcome to the library management system.  Would you like to search by book or by patron?");
+        welcomeLabel.setForeground(Color.blue);
+        welcomeLabel.setFont(new Font("Times", Font.PLAIN, 12));
+
+        bookSearchButton = new JButton("Book");
+        bookSearchButton.addActionListener(this);
+        bookSearchButton.setBackground(new Color(132, 112, 255));
+        
+        patronSearchButton = new JButton("Patron");
+        patronSearchButton.addActionListener(this);
+        patronSearchButton.setBackground(new Color(132, 112, 255));
+        
+        initialPanel.add(welcomeLabel);
+        initialPanel.add(bookSearchButton);
+        initialPanel.add(patronSearchButton);
+
+        return initialPanel;
     }
     
     /**Makes the JPanel for dealing with a book
@@ -63,7 +134,20 @@ public class LibraryFrame extends JFrame {
       *@return a JPanel
     **/
     public JPanel makeBookPanel() {
-        return new JPanel();
+        bookPanel = new JPanel();
+
+        categories = new JComboBox();
+        categories.addItem("Title");
+        categories.addItem("Author");
+        categories.addItem("Barcode Number");
+        categories.setSelectedIndex(0);
+        categories.addActionListener(this);
+
+        bookPanel.add(selectLabel);
+        bookPanel.add(categories);
+        bookPanel.add(goButton);
+
+        return bookPanel;
     }
     
     /**Makes the JPanel for dealing with a patron
@@ -71,13 +155,24 @@ public class LibraryFrame extends JFrame {
       *@return a JPanel
     **/
     public JPanel makePatronPanel() {
+        patronPanel = new JPanel();
+
+        categories = new JComboBox();
+        categories.addItem("Name");
+        categories.addItem("Library Card Number");
+        categories.setSelectedIndex(0);
+        categories.addActionListener(this);
+
+        patronPanel.add(selectLabel);
+        patronPanel.add(categories);
+        patronPanel.add(goButton);
+
         return new JPanel();
     }
     
-    /**Handles events.
-      *Theoretically. 
+    /**Handles events. 
     **/
-    //public void actionPerformed(ActionEvent event) {
-    //}
+    public void actionPerformed(ActionEvent event) {
+    }
     
 }
