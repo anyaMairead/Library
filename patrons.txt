@@ -1,0 +1,50 @@
+James Kirk, 00001
+Spock, 00002
+Leonard McCoy, 00003
+Montgomery Scott, 00004
+Nyota Uhura, 00005
+Hikaru Sulu, 00006
+Pavel Chekov, 00007
+Janice Rand, 00008
+Christine Chapel, 00009
+Christoper Pike, 00010
+Number One, 00011
+Jean-Luc Picard, 00012
+William Riker, 00013
+Beverly Crusher, 00014
+Data, 00015
+Geordi LaForge, 00016
+Tasha Yar, 00017
+Deanna Troi, 00018
+Alynna Nechayev, 00019
+Benjamin Sisko, 00020
+Kira Nerys, 00021
+Jadzia Dax, 00022
+Odo, 00023
+Miles O'Brien, 00024
+Quark, 00025
+Worf, 00026
+Jake Sisko, 00027
+Garak, 00028
+Skrain Dukat, 00029
+Jeffrey Sinclair, 00030
+John Sheridan, 00031
+Susan Ivanova, 00032
+Laurel Takashima, 00033
+Delenn, 00034
+Stephen Franklin, 00035
+Benjamin Kyle, 00036
+Talia Winters, 00037
+Lyta Alexander, 00038
+Londo Mollari, 00039
+Vir Cotto, 00040
+Lennier, 00041
+G'Kar, 00042
+Na'Toth, 00043
+Marcus Cole, 00044
+Elizabeth Lochley, 00045
+Martok, 00046
+Natima Lang, 00047
+Gowron, 00048
+Rom, 00049
+Nog, 00050
