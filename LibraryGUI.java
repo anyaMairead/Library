@@ -14,14 +14,12 @@ public class LibraryGUI {
     public static void main(String[] args) {
         JFrame frame = new JFrame("Library Search Program");
   
-        LibraryFrame library = new LibraryFrame();
-        library.getContentPane().add(library);
-  
-        library.pack();
-        library.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        library.setVisible(true);
-        library.setDefaultLookAndFeelDecorated(true);
-        library.setSize(350,500);
+        //LibraryPanel library = new LibraryPanel();
+        frame.getContentPane().add(new LibraryPanel(), BorderLayout.CENTER);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultLookAndFeelDecorated(true);
+        frame.setSize(550,500);
+        frame.setVisible(true);
     }
     
 }

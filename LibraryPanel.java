@@ -9,21 +9,40 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.*;
 
-public class LibraryFrame extends JFrame implements ActionListener {
+public class LibraryPanel extends JPanel implements ActionListener {
   
     private JPanel cards, initialPanel, bookSearchResultPanel, bookFullInfoPanel, patronSearchResultPanel, patronFullInfoPanel, bookPanel, patronPanel;
     private JLabel welcomeLabel, bookSearchResultsLabel, patronSearchResultsLabel, selectLabel;
-    private JButton patronSearchButton, bookSearchButton, goButton;    
-    private JComboBox categories;
+    private JButton patronSearchButton, bookSearchButton, searchForBookButton, searchForPatronButton, newSearchButton;    
+    private JComboBox bookCategories, patronCategories;
+    private String initial, bookSearchResult, bookFullInfo, patronSearchResult, patronFullInfo, bookInitial, patronInitial;
+    private JTextField enterBookInfo, enterPatronInfo;
 
-    public LibraryFrame() {
+    public LibraryPanel() {
+        //strings to identify the cards
+        initial = "welcome";
+        bookSearchResult = "result of book search";
+        patronSearchResult = "result of patron search";
+        bookFullInfo = "book information";
+        patronFullInfo = "patron information";
+        bookInitial = "search for a book";
+        patronInitial = "search for a patron";
+    
         selectLabel = new JLabel("Select a category to search by");
         selectLabel.setForeground(Color.blue);
         selectLabel.setFont(new Font("Times", Font.ITALIC, 12));
 
-        goButton = new JButton("Search");
-        goButton.addActionListener(this);
-        goButton.setBackground(new Color(132, 112, 255));
+        searchForBookButton = new JButton("Search for Book");
+        searchForBookButton.addActionListener(this);
+        searchForBookButton.setBackground(new Color(132, 112, 255));
+
+        searchForPatronButton = new JButton("Search for Patron");
+        searchForPatronButton.addActionListener(this);
+        searchForPatronButton.setBackground(new Color(132, 112, 255));
+
+        newSearchButton = new JButton("New Search");
+        newSearchButton.addActionListener(this);
+        newSearchButton.setBackground(new Color(132, 112, 255));
 
         initialPanel = makeInitialPanel();
         bookPanel = makeBookPanel();
@@ -34,13 +53,13 @@ public class LibraryFrame extends JFrame implements ActionListener {
         patronFullInfoPanel = makePatronFullInfoPanel();
 
         cards = new JPanel(new CardLayout());
-        cards.add(initialPanel);
-        cards.add(bookPanel);
-        cards.add(patronPanel);
-        cards.add(bookSearchResultPanel);
-        cards.add(patronSearchResultPanel);
-        cards.add(bookFullInfoPanel);
-        cards.add(patronFullInfoPanel);
+        cards.add(initialPanel, initial);
+        cards.add(bookPanel, bookInitial);
+        cards.add(patronPanel, patronInitial);
+        cards.add(bookSearchResultPanel, bookSearchResult);
+        cards.add(patronSearchResultPanel, patronSearchResult);
+        cards.add(bookFullInfoPanel, bookFullInfo);
+        cards.add(patronFullInfoPanel, patronFullInfo);
     }
     
     //Make JPanels for each different screen of the GUI
@@ -55,6 +74,8 @@ public class LibraryFrame extends JFrame implements ActionListener {
         //want this to be string representation of the book they just clicked on
         //JLabel bookInfo = new JLabel(b.toString()); //where b is the book
         //bookFullInfoPanel.add(bookInfo);
+
+        bookFullInfoPanel.add(newSearchButton);
         return bookFullInfoPanel;
     }
     
@@ -71,7 +92,8 @@ public class LibraryFrame extends JFrame implements ActionListener {
 
         bookSearchResult.add(bookSearchResultsLabel);
 
-        return new JPanel();
+        bookSearchResult.add(newSearchButton);
+        return bookSearchResult;
     }
     
     /**Makes the JPanel for the result of searching for a patron
@@ -87,6 +109,7 @@ public class LibraryFrame extends JFrame implements ActionListener {
 
         patronSearchResult.add(patronSearchResultsLabel);
 
+        patronSearchResult.add(newSearchButton);
         return patronSearchResult;
     }
       
@@ -100,6 +123,7 @@ public class LibraryFrame extends JFrame implements ActionListener {
        //JLabel patronLabel = new JLabel(p.toString);
        //patronFullInfoResult.add(patronLabel);
 
+       patronFullInfoResult.add(newSearchButton);
        return patronFullInfoResult;
     }
     
@@ -135,18 +159,22 @@ public class LibraryFrame extends JFrame implements ActionListener {
     **/
     public JPanel makeBookPanel() {
         bookPanel = new JPanel();
+        
+        enterBookInfo = new JTextField("Enter book information", 50);
 
-        categories = new JComboBox();
-        categories.addItem("Title");
-        categories.addItem("Author");
-        categories.addItem("Barcode Number");
-        categories.setSelectedIndex(0);
-        categories.addActionListener(this);
+        bookCategories = new JComboBox();
+        bookCategories.addItem("Title");
+        bookCategories.addItem("Author");
+        bookCategories.addItem("Barcode Number");
+        bookCategories.setSelectedIndex(0);
+        bookCategories.addActionListener(this);
 
         bookPanel.add(selectLabel);
-        bookPanel.add(categories);
-        bookPanel.add(goButton);
-
+        bookPanel.add(enterBookInfo);
+        bookPanel.add(bookCategories);
+        bookPanel.add(searchForBookButton);
+        bookPanel.add(newSearchButton);
+       
         return bookPanel;
     }
     
@@ -157,22 +185,40 @@ public class LibraryFrame extends JFrame implements ActionListener {
     public JPanel makePatronPanel() {
         patronPanel = new JPanel();
 
-        categories = new JComboBox();
-        categories.addItem("Name");
-        categories.addItem("Library Card Number");
-        categories.setSelectedIndex(0);
-        categories.addActionListener(this);
+        enterPatronInfo = new JTextField("Enter patron information", 50);
+
+        patronCategories = new JComboBox();
+        patronCategories.addItem("Name");
+        patronCategories.addItem("Library Card Number");
+        patronCategories.setSelectedIndex(0);
+        patronCategories.addActionListener(this);
 
         patronPanel.add(selectLabel);
-        patronPanel.add(categories);
-        patronPanel.add(goButton);
+        patronPanel.add(enterPatronInfo);
+        patronPanel.add(patronCategories);
+        patronPanel.add(searchForPatronButton);
+        patronPanel.add(newSearchButton);
 
-        return new JPanel();
+        return patronPanel;
     }
     
     /**Handles events. 
     **/
     public void actionPerformed(ActionEvent event) {
+        Object source = event.getSource();
+        
+        CardLayout cl = (CardLayout)(cards.getLayout());
+
+        if (source == bookSearchButton) {
+            cl.show(cards, bookInitial);
+        } else if (source == patronSearchButton) {
+            cl.show(cards, patronInitial);
+        } else if (source == newSearchButton) {
+            cl.show(cards, initial);
+        }
+        //check
+        //else if (source == searchForBookButton) {
+            //search for book 
     }
     
 }
