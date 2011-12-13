@@ -13,7 +13,9 @@ public class LibraryGUI {
     **/
     public static void main(String[] args) {
         JFrame frame = new JFrame("Library Search Program");
-  
+        
+        //LibraryPanel library = new LibraryPanel();
+        //library.addComponentToPane(frame.getContentPanel());
         //LibraryPanel library = new LibraryPanel();
         frame.getContentPane().add(new LibraryPanel(), BorderLayout.CENTER);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

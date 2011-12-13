@@ -19,14 +19,15 @@ public class Library {
     private Map<String, List<Book>> barcodeIndex;
     private Map<String, List<Patron>> patronNameIndex;
     private Map<String, List<Patron>> patronCardIndex;
+    private static final Library INSTANCE = new Library("Burbank","books.txt","patrons.txt");
     
     /**Constructor method to create a new library
     **/
-    public Library(String libraryName, String initialBookList, String initialPatronList) {
+    private Library(String libraryName, String initialBookList, String initialPatronList) {
         this.libraryName = libraryName;
-        List<Book> books = new ArrayList<Book>(); 
+        this.books = new ArrayList<Book>(); 
         this.initialBookList = initialBookList;
-        List<Patron> patrons = new ArrayList<Patron>();
+        this.patrons = new ArrayList<Patron>();
         this.initialPatronList = initialPatronList;
         try {
             makeArrayListOfBooks(initialBookList);
@@ -38,13 +39,22 @@ public class Library {
         } catch (IOException e) {
             System.out.println("No such file");
         }
-        Map<String, List<Book>> titleIndex = new HashMap<String, List<Book>>();
-        Map<String, List<Book>> authorIndex = new HashMap<String, List<Book>>();
-        Map<String, List<Book>> barcodeIndex = new HashMap<String, List<Book>>();
-        Map<String, List<Patron>> patronNameIndex = new HashMap<String, List<Patron>>();
-        Map<String, List<Patron>> patronCardIndex = new HashMap<String, List<Patron>>();
+        this.titleIndex = new HashMap<String, List<Book>>();
+        this.authorIndex = new HashMap<String, List<Book>>();
+        this.barcodeIndex = new HashMap<String, List<Book>>();
+        this.patronNameIndex = new HashMap<String, List<Patron>>();
+        this.patronCardIndex = new HashMap<String, List<Patron>>();
+    }  
+    
+    /**Gets the library - for use outside the class
+      *
+      *@return the library
+    **/
+    public static Library getLibrary() {
+        return INSTANCE;
     }
-        
+
+
     /**Adds Books to the necessary hashmaps
       *
       *@param b the Book to add
@@ -175,5 +185,31 @@ public class Library {
         } else { //we don't have a book with that barcode, return empty list
             return new ArrayList<Book>();
         }
-    } 
+    }
+
+    /**Displays the result of a search for a patron by library card number
+      *
+      *@param cardNumber the library card number to search for
+    **/
+    public List<Patron> findPatronsByCardNumber(String cardNumber) {
+        if (patronCardIndex.containsKey(cardNumber)) { //we've found a match
+            return patronCardIndex.get(cardNumber);
+        } else { //we don't have a book with that barcode, return empty list
+            return new ArrayList<Patron>();
+        }   
+    }
+
+    /**Displays the result of a search for a patron by name
+      *
+      *@param name the patron name to search for
+    **/
+    public List<Patron> findPatronsByName(String name) {
+        if (patronNameIndex.containsKey(name)) { //we've found a match
+            return patronNameIndex.get(name);
+        } else { //we don't have a book with that barcode, return empty list
+            return new ArrayList<Patron>();
+        }   
+    }   
+
+
 }
