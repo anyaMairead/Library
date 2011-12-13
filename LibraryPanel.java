@@ -12,13 +12,14 @@ import java.util.*;
 public class LibraryPanel extends JPanel implements ActionListener {
   
     private JPanel cards, initialPanel, bookSearchResultPanel, bookFullInfoPanel, patronSearchResultPanel, patronFullInfoPanel, bookPanel, patronPanel;
-    private JLabel welcomeLabel, bookSearchResultsLabel, patronSearchResultsLabel, setBookStatusLabel, selectLabel, setBookLocationLabel;
-    private JButton patronSearchButton, bookSearchButton, searchForBookButton, searchForPatronButton, newSearchButton;    
+    private JLabel welcomeLabel, bookSearchResultsLabel, patronSearchResultsLabel, setBookStatusLabel, selectBookCategoryLabel, selectPatronCategoryLabel, setBookLocationLabel;
+    private JButton patronSearchButton, bookSearchButton, searchForBookButton, searchForPatronButton; 
     private JComboBox bookCategories, patronCategories;
     private String initial, bookSearchResult, bookFullInfo, patronSearchResult, patronFullInfo, bookInitial, patronInitial;
     private JTextField enterBookInfo, enterPatronInfo;
     private JRadioButton buenaVista, central, northwest, available, inTransit, checkedOut;
     private ButtonGroup status, location;
+    private java.util.List<JButton> newSearchButtons = new ArrayList<JButton>();
 
     public LibraryPanel() {
         //strings to identify the cards
@@ -30,10 +31,14 @@ public class LibraryPanel extends JPanel implements ActionListener {
         bookInitial = "search for a book";
         patronInitial = "search for a patron";
     
-        selectLabel = new JLabel("Select a category to search by");
-        selectLabel.setForeground(Color.blue);
-        selectLabel.setFont(new Font("Times", Font.ITALIC, 12));
+        selectBookCategoryLabel = new JLabel("Select a category to search by");
+        selectBookCategoryLabel.setForeground(Color.blue);
+        selectBookCategoryLabel.setFont(new Font("Times", Font.ITALIC, 12));
 
+        selectPatronCategoryLabel = new JLabel("Select a category to search by");
+        selectPatronCategoryLabel.setForeground(Color.blue);
+        selectPatronCategoryLabel.setFont(new Font("Times", Font.ITALIC, 12));
+        
         setBookStatusLabel = new JLabel("Status of book:");
         setBookStatusLabel.setForeground(Color.blue);
         setBookStatusLabel.setFont(new Font("Times", Font.PLAIN, 12));
@@ -75,21 +80,11 @@ public class LibraryPanel extends JPanel implements ActionListener {
       *@return a new JButton
     **/
     private JButton makeNewSearchButton() {
-        newSearchButton = new JButton("New Search");
+        JButton newSearchButton = new JButton("New Search");
         newSearchButton.addActionListener(this);
         newSearchButton.setBackground(new Color(132, 112, 255));
+        newSearchButtons.add(newSearchButton);
         return newSearchButton;
-    }
-
-    /**Makes an instruction label
-      *
-      *@return a new JLabel
-    **/
-    private JLabel makeSelectLabel() {
-        selectLabel = new JLabel("Select a category to search by");
-        selectLabel.setForeground(Color.blue);
-        selectLabel.setFont(new Font("Times", Font.ITALIC, 12));
-        return selectLabel;
     }
     
     /**Makes the JPanel for detailed info on a book
@@ -220,7 +215,7 @@ public class LibraryPanel extends JPanel implements ActionListener {
     public JPanel makeBookPanel() {
         bookPanel = new JPanel();
   
-        enterBookInfo = new JTextField("Enter book information", 35);
+        enterBookInfo = new JTextField("Enter book information", 50);
         JButton newSearchButton = makeNewSearchButton();
                 
         bookCategories = new JComboBox();
@@ -230,7 +225,7 @@ public class LibraryPanel extends JPanel implements ActionListener {
         bookCategories.setSelectedIndex(0);
         bookCategories.addActionListener(this);
 
-        bookPanel.add(selectLabel);
+        bookPanel.add(selectBookCategoryLabel);
         bookPanel.add(enterBookInfo);
         bookPanel.add(bookCategories);
         bookPanel.add(searchForBookButton);
@@ -255,7 +250,7 @@ public class LibraryPanel extends JPanel implements ActionListener {
         patronCategories.setSelectedIndex(0);
         patronCategories.addActionListener(this);
 
-        patronPanel.add(selectLabel);
+        patronPanel.add(selectPatronCategoryLabel);
         patronPanel.add(enterPatronInfo);
         patronPanel.add(patronCategories);
         patronPanel.add(searchForPatronButton);
@@ -274,7 +269,7 @@ public class LibraryPanel extends JPanel implements ActionListener {
             cl.show(this, bookInitial);
         } else if (source == patronSearchButton) {
             cl.show(this, patronInitial);
-        } else if (source == newSearchButton) {
+        } else if (newSearchButtons.contains(source)) { //then it's a newSearchButton
             cl.show(this, initial);
         } else if (source.equals(available)) {
             //...

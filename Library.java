@@ -19,7 +19,7 @@ public class Library {
     private Map<String, List<Book>> barcodeIndex;
     private Map<String, List<Patron>> patronNameIndex;
     private Map<String, List<Patron>> patronCardIndex;
-    private static final Library INSTANCE = new Library("Burbank","books.txt","patrons.txt");
+    private static Library INSTANCE;
     
     /**Constructor method to create a new library
     **/
@@ -29,6 +29,12 @@ public class Library {
         this.initialBookList = initialBookList;
         this.patrons = new ArrayList<Patron>();
         this.initialPatronList = initialPatronList;
+        this.titleIndex = new HashMap<String, List<Book>>();
+        this.authorIndex = new HashMap<String, List<Book>>();
+        this.barcodeIndex = new HashMap<String, List<Book>>();
+        this.patronNameIndex = new HashMap<String, List<Patron>>();
+        this.patronCardIndex = new HashMap<String, List<Patron>>();
+
         try {
             makeArrayListOfBooks(initialBookList);
         } catch (IOException e) {
@@ -38,12 +44,7 @@ public class Library {
             makeArrayListOfPatrons(initialPatronList);
         } catch (IOException e) {
             System.out.println("No such file");
-        }
-        this.titleIndex = new HashMap<String, List<Book>>();
-        this.authorIndex = new HashMap<String, List<Book>>();
-        this.barcodeIndex = new HashMap<String, List<Book>>();
-        this.patronNameIndex = new HashMap<String, List<Patron>>();
-        this.patronCardIndex = new HashMap<String, List<Patron>>();
+        } 
     }  
     
     /**Gets the library - for use outside the class
@@ -51,6 +52,9 @@ public class Library {
       *@return the library
     **/
     public static Library getLibrary() {
+        if (INSTANCE == null) {
+            INSTANCE = new Library("Burbank", "books.txt", "patrons.txt");
+        }
         return INSTANCE;
     }
 
