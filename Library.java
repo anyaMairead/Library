@@ -67,12 +67,10 @@ public class Library {
         books.add(b);
         
         String searchTitle = b.getTitle().toLowerCase().replaceAll(" ", "");
-        if (titleIndex.containsKey(searchTitle)) {
-            titleIndex.put(searchTitle, new ArrayList<Book>());
-            titleIndex.get(searchTitle).add(b);
-        } else {
+        if (!titleIndex.containsKey(searchTitle)) {
             titleIndex.put(searchTitle, new ArrayList<Book>());
         }
+        titleIndex.get(searchTitle).add(b);
         
         String authorNames = b.getAuthor().toLowerCase().replaceAll(" and ", "").trim(); //for handling multiple-author books
         String[] authorWords = authorNames.split("\\s+");
@@ -85,13 +83,10 @@ public class Library {
         } 
 
         String searchBarcode = b.getBarcodeNumber();
-        if (barcodeIndex.containsKey(searchBarcode)) {
-            barcodeIndex.put(searchBarcode, new ArrayList<Book>());
-            barcodeIndex.get(searchBarcode).add(b);
-        } else {
-            barcodeIndex.put(searchBarcode, new ArrayList<Book>());
+        if (!barcodeIndex.containsKey(searchBarcode)) { 
+             barcodeIndex.put(searchBarcode, new ArrayList<Book>());
         }
-        
+        barcodeIndex.get(searchBarcode).add(b);
     }
     
     /**Adds patrons to the appropriate HashMaps
@@ -102,20 +97,16 @@ public class Library {
         patrons.add(p);
         
         String searchName = p.getName().toLowerCase().replaceAll(" ", "");
-        if (patronNameIndex.containsKey(searchName)) {
-            patronNameIndex.put(searchName, new ArrayList<Patron>());
-            patronNameIndex.get(searchName).add(p);
-        } else {
+        if (!patronNameIndex.containsKey(searchName)) {
             patronNameIndex.put(searchName, new ArrayList<Patron>());
         }
+        patronNameIndex.get(searchName).add(p);
         
         String searchCardNumber = p.getCardNumber();
-        if (patronCardIndex.containsKey(searchCardNumber)) {
-            patronCardIndex.put(searchCardNumber, new ArrayList<Patron>());
-            patronCardIndex.get(searchCardNumber).add(p);
-        } else {
+        if (!patronCardIndex.containsKey(searchCardNumber)) {
             patronCardIndex.put(searchCardNumber, new ArrayList<Patron>());
         }
+        patronCardIndex.get(searchCardNumber).add(p);
     }
     
     
