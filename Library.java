@@ -96,17 +96,22 @@ public class Library {
     public void addPatron(Patron p) {
         patrons.add(p);
         
-        String searchName = p.getName().toLowerCase().replaceAll(" ", "");
-        if (!patronNameIndex.containsKey(searchName)) {
-            patronNameIndex.put(searchName, new ArrayList<Patron>());
+        String searchName = p.getName().toLowerCase().replaceAll(" ", "").trim();
+        String[] nameWords = searchName.split("\\s+");
+        for (String term : nameWords) {
+            if (!patronNameIndex.containsKey(term)) {
+                patronNameIndex.put(term, new ArrayList<Patron>());
+            } else {
+                patronNameIndex.get(term).add(p);
+            }
         }
-        patronNameIndex.get(searchName).add(p);
-        
+
         String searchCardNumber = p.getCardNumber();
         if (!patronCardIndex.containsKey(searchCardNumber)) {
             patronCardIndex.put(searchCardNumber, new ArrayList<Patron>());
         }
         patronCardIndex.get(searchCardNumber).add(p);
+       
     }
     
     
@@ -199,11 +204,15 @@ public class Library {
       *@param name the patron name to search for
     **/
     public List<Patron> findPatronsByName(String name) {
-        if (patronNameIndex.containsKey(name)) { //we've found a match
-            return patronNameIndex.get(name);
-        } else { //we don't have a book with that barcode, return empty list
-            return new ArrayList<Patron>();
-        }   
+        name = name.toLowerCase();
+        String[] nameWords = name.split("\\P{L}+"); //tokenize to be able to match just part of a name
+        for (String term : nameWords) {
+            if (patronNameIndex.containsKey(term)) {
+                return patronNameIndex.get(term);
+            }
+        }  
+        //otherwise there's no match
+        return new ArrayList<Patron>();   
     }   
 
 

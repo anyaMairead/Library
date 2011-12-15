@@ -11,13 +11,13 @@ import java.util.*;
 
 public class LibraryPanel extends JPanel implements ActionListener {
   
-    private JPanel cards, initialPanel, bookSearchResultPanel, bookFullInfoPanel, patronSearchResultPanel, patronFullInfoPanel, bookPanel, patronPanel;
+    private JPanel cards, initialPanel, bookSearchResultPanel, bookFullInfoPanel, patronSearchResultPanel, patronFullInfoPanel, bookPanel, patronPanel, bookSearchResultsCenter, patronSearchResultsCenter;
     private JLabel welcomeLabel, bookSearchResultsLabel, patronSearchResultsLabel, setBookStatusLabel, selectBookCategoryLabel, selectPatronCategoryLabel, setBookLocationLabel;
     private JButton patronSearchButton, bookSearchButton, searchForBookButton, searchForPatronButton; 
     private JComboBox bookCategories, patronCategories;
     private String initial, bookSearchResult, bookFullInfo, patronSearchResult, patronFullInfo, bookInitial, patronInitial;
     private JTextField enterBookInfo, enterPatronInfo;
-    private JRadioButton buenaVista, central, northwest, available, inTransit, checkedOut;
+    private JRadioButton buenaVista, central, northwest, available, inTransit, requested, checkedOut;
     private ButtonGroup status, location;
     private java.util.List<JButton> newSearchButtons = new ArrayList<JButton>();
     private java.util.List<Book> bookResults = new ArrayList<Book>();
@@ -106,9 +106,12 @@ public class LibraryPanel extends JPanel implements ActionListener {
         checkedOut.addActionListener(this);
         inTransit = new JRadioButton("In transit");
         inTransit.addActionListener(this);
+        requested = new JRadioButton("Requested");
+        requested.addActionListener(this);
         status.add(available);
         status.add(checkedOut);
         status.add(inTransit);
+        status.add(requested);
 
         location = new ButtonGroup();
         buenaVista = new JRadioButton("Buena Vista Branch");
@@ -125,6 +128,7 @@ public class LibraryPanel extends JPanel implements ActionListener {
         bookFullInfoPanel.add(available);
         bookFullInfoPanel.add(checkedOut);
         bookFullInfoPanel.add(inTransit);
+        bookFullInfoPanel.add(requested);
         bookFullInfoPanel.add(setBookLocationLabel);
         bookFullInfoPanel.add(buenaVista);
         bookFullInfoPanel.add(central);
@@ -148,10 +152,11 @@ public class LibraryPanel extends JPanel implements ActionListener {
         bookSearchResultsTitle.setForeground(Color.blue);
         bookSearchResultsTitle.setFont(new Font("Times", Font.PLAIN, 12));
         
-        bookSearchResultsLabel = new JLabel("<html>No results yet");
-        
+        //bookSearchResultsLabel = new JLabel("<html>No results yet");
+        bookSearchResultsCenter = new JPanel(new GridLayout(0, 1, 5, 5));
+
         bookSearchResult.add(bookSearchResultsTitle, BorderLayout.NORTH);
-        bookSearchResult.add(bookSearchResultsLabel, BorderLayout.CENTER);
+        bookSearchResult.add(bookSearchResultsCenter, BorderLayout.CENTER);
         bookSearchResult.add(newSearchButton, BorderLayout.SOUTH);
 
         return bookSearchResult;
@@ -176,6 +181,7 @@ public class LibraryPanel extends JPanel implements ActionListener {
         patronSearchResult.add(patronSearchResultsTitle, BorderLayout.NORTH);
         patronSearchResult.add(patronSearchResultsLabel, BorderLayout.CENTER);
         patronSearchResult.add(newSearchButton, BorderLayout.SOUTH);
+    
         return patronSearchResult;
     }
       
@@ -226,7 +232,8 @@ public class LibraryPanel extends JPanel implements ActionListener {
     **/
     public JPanel makeBookPanel() {
         bookPanel = new JPanel();
-  
+        bookPanel.setLayout(new BorderLayout());
+
         enterBookInfo = new JTextField("Enter book information", 50);
         JButton newSearchButton = makeNewSearchButton();
                 
@@ -237,11 +244,11 @@ public class LibraryPanel extends JPanel implements ActionListener {
         bookCategories.setSelectedIndex(0);
         bookCategories.addActionListener(this);
 
-        bookPanel.add(selectBookCategoryLabel);
-        bookPanel.add(enterBookInfo);
-        bookPanel.add(bookCategories);
-        bookPanel.add(searchForBookButton);
-        bookPanel.add(newSearchButton);
+        bookPanel.add(selectBookCategoryLabel, BorderLayout.NORTH);
+        bookPanel.add(enterBookInfo, BorderLayout.WEST);
+        bookPanel.add(bookCategories, BorderLayout.CENTER);
+        bookPanel.add(searchForBookButton, BorderLayout.EAST);
+        bookPanel.add(newSearchButton, BorderLayout.SOUTH);
        
         return bookPanel;
     }
@@ -284,17 +291,19 @@ public class LibraryPanel extends JPanel implements ActionListener {
         } else if (newSearchButtons.contains(source)) { //then it's a newSearchButton
             cl.show(this, initial);
         } else if (source.equals(available)) {
-            //...
+            //...book.setStatus("available");
         } else if (source.equals(checkedOut)) {
-            //...
+            //...book.setStatus("checked out");
         } else if (source.equals(inTransit)) {
-            //...
+            //...book.setStatus("in transit");
+        } else if (source.equals(requested)) {
+            //...book.setStatus("requested");
         } else if (source.equals(buenaVista)) {
-            //...
+            //...book.setBranchLocation("Buena Vista");
         } else if (source.equals(central)) {
-            //...
+            //...book.setBranchLocation("Central");
         } else if (source.equals(northwest)) {
-            //...
+            //...book.setBranchLocation("Northwest");
         }
 
         Object bookSearchCriteria = bookCategories.getSelectedItem();
@@ -307,7 +316,7 @@ public class LibraryPanel extends JPanel implements ActionListener {
                 for(Book item : bookResults) {
                     builder.append(item.getTitle() + " by " + item.getAuthor() + "<br>");
                 }
-                bookSearchResultsLabel.setText("<html>" + builder.toString());
+                //bookSearchResultsLabel.setText("<html>" + builder.toString());
                 cl.show(this, bookSearchResult);
             }
         } else if (bookSearchCriteria.equals("Author")) {
@@ -318,19 +327,27 @@ public class LibraryPanel extends JPanel implements ActionListener {
                 for(Book item : bookResults) {
                     builder.append(item.getTitle() + " by " + item.getAuthor() + "<br>");
                 } 
-                bookSearchResultsLabel.setText("<html>" + builder.toString());
+                //bookSearchResultsLabel.setText("<html>" + builder.toString());
                 cl.show(this, bookSearchResult); 
 
             }
-        } else if (bookSearchCriteria.equals("Barcode")) {
+        } else if (bookSearchCriteria.equals("Barcode Number")) {
             if (source == searchForBookButton) {
                 bookResults = Library.getLibrary().findBooksByBarcode(enterBookInfo.getText());
-                StringBuilder builder = new StringBuilder();
+//                StringBuilder builder = new StringBuilder();
+                
+            
                 for (Book item : bookResults) {
-                    builder.append(item.getTitle() + " by " + item.getAuthor() + "<br>");
+                    bookSearchResultsCenter.removeAll();
+                    String s = item.getTitle() + " by " + item.getAuthor();
+                    JLabel searchMatch = new JLabel(s); 
+                    bookSearchResultsCenter.add(searchMatch);  
+             
                 } 
-                bookSearchResultsLabel.setText("<html>" + builder.toString()); 
+                //bookSearchResultsLabel.setText("<html>" + builder.toString()); 
+                //bookSearchResult.add(searchMatches);
                 cl.show(this, bookSearchResult);
+                //bookSearchResult.add(searchMatches);
             }
         }
         
@@ -338,20 +355,27 @@ public class LibraryPanel extends JPanel implements ActionListener {
         if (patronSearchCriteria.equals("Name")) {
             if (source == searchForPatronButton) {
                 patronResults = Library.getLibrary().findPatronsByName(enterPatronInfo.getText());
-                
-                StringBuilder builder = new StringBuilder();
+                //System.out.println(patronResults);                
+               
+              
+             
                 for (Patron person : patronResults) {
-                    builder.append(person.getName() + person.getCardNumber() + "<br>");
+                    String s = person.getName() + "\t" + person.getCardNumber();   
+                    JLabel result1 = new JLabel(s);
+                     
                 }
-                patronSearchResultsLabel.setText("<html>" + builder.toString());
+                //builder.append(person.getName() + "\t" + person.getCardNumber() + "<br>");
+                //patronSearchResultsLabel.add(searchMatches);
                 cl.show(this, patronSearchResult);
+            //    patronSearchResult.add(searchMatches);
             }
         } else if (patronSearchCriteria.equals("Library Card Number")) {
             if (source == searchForPatronButton) {
                 patronResults = Library.getLibrary().findPatronsByCardNumber(enterPatronInfo.getText());
+                System.out.println(patronResults);
                 StringBuilder builder = new StringBuilder();
                 for (Patron person : patronResults) {
-                    builder.append(person.getName() + person.getCardNumber() + "<br>");
+                    builder.append(person.getName() + "\t" + person.getCardNumber() + "<br>");
                 }
                 patronSearchResultsLabel.setText("<html>" + builder.toString());
                 
