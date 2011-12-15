@@ -152,7 +152,6 @@ public class LibraryPanel extends JPanel implements ActionListener {
         bookSearchResultsTitle.setForeground(Color.blue);
         bookSearchResultsTitle.setFont(new Font("Times", Font.PLAIN, 12));
         
-        //bookSearchResultsLabel = new JLabel("<html>No results yet");
         bookSearchResultsCenter = new JPanel(new GridLayout(0, 1, 5, 5));
 
         bookSearchResult.add(bookSearchResultsTitle, BorderLayout.NORTH);
@@ -176,10 +175,10 @@ public class LibraryPanel extends JPanel implements ActionListener {
         patronSearchResultsTitle.setForeground(Color.blue);
         patronSearchResultsTitle.setFont(new Font("Times", Font.PLAIN, 12));
 
-        patronSearchResultsLabel = new JLabel("<html>No results yet");
+        patronSearchResultsCenter = new JPanel(new GridLayout(0, 1, 5, 5));
 
         patronSearchResult.add(patronSearchResultsTitle, BorderLayout.NORTH);
-        patronSearchResult.add(patronSearchResultsLabel, BorderLayout.CENTER);
+        patronSearchResult.add(patronSearchResultsCenter, BorderLayout.CENTER);
         patronSearchResult.add(newSearchButton, BorderLayout.SOUTH);
     
         return patronSearchResult;
@@ -309,76 +308,63 @@ public class LibraryPanel extends JPanel implements ActionListener {
         Object bookSearchCriteria = bookCategories.getSelectedItem();
         if (bookSearchCriteria.equals("Title")) {
             if (source == searchForBookButton) {
+                bookSearchResultsCenter.removeAll();
                 bookResults = Library.getLibrary().findBooksByTitle(enterBookInfo.getText());
-                System.out.println(bookResults);
-
-                StringBuilder builder = new StringBuilder();
                 for(Book item : bookResults) {
-                    builder.append(item.getTitle() + " by " + item.getAuthor() + "<br>");
+                    String s = item.getTitle() + " by " + item.getAuthor();
+                    JLabel searchMatch = new JLabel(s);
+                    bookSearchResultsCenter.add(searchMatch);
                 }
-                //bookSearchResultsLabel.setText("<html>" + builder.toString());
+              
                 cl.show(this, bookSearchResult);
             }
         } else if (bookSearchCriteria.equals("Author")) {
             if (source == searchForBookButton) {
-                bookResults = Library.getLibrary().findBooksByAuthor(enterBookInfo.getText());
-                
-                StringBuilder builder = new StringBuilder();
-                for(Book item : bookResults) {
-                    builder.append(item.getTitle() + " by " + item.getAuthor() + "<br>");
+                bookSearchResultsCenter.removeAll();
+                bookResults = Library.getLibrary().findBooksByAuthor(enterBookInfo.getText()); 
+                for(Book item : bookResults) { 
+                    String s = item.getTitle() + " by " + item.getAuthor();
+                    JLabel searchMatch = new JLabel(s);
+                    bookSearchResultsCenter.add(searchMatch);
                 } 
-                //bookSearchResultsLabel.setText("<html>" + builder.toString());
+               
                 cl.show(this, bookSearchResult); 
 
             }
         } else if (bookSearchCriteria.equals("Barcode Number")) {
             if (source == searchForBookButton) {
+                bookSearchResultsCenter.removeAll();
                 bookResults = Library.getLibrary().findBooksByBarcode(enterBookInfo.getText());
-//                StringBuilder builder = new StringBuilder();
-                
-            
                 for (Book item : bookResults) {
-                    bookSearchResultsCenter.removeAll();
                     String s = item.getTitle() + " by " + item.getAuthor();
                     JLabel searchMatch = new JLabel(s); 
-                    bookSearchResultsCenter.add(searchMatch);  
-             
+                    bookSearchResultsCenter.add(searchMatch);   
                 } 
-                //bookSearchResultsLabel.setText("<html>" + builder.toString()); 
-                //bookSearchResult.add(searchMatches);
-                cl.show(this, bookSearchResult);
-                //bookSearchResult.add(searchMatches);
+                cl.show(this, bookSearchResult); 
             }
         }
         
         Object patronSearchCriteria = patronCategories.getSelectedItem();
         if (patronSearchCriteria.equals("Name")) {
             if (source == searchForPatronButton) {
+                patronSearchResultsCenter.removeAll();
                 patronResults = Library.getLibrary().findPatronsByName(enterPatronInfo.getText());
-                //System.out.println(patronResults);                
-               
-              
-             
                 for (Patron person : patronResults) {
                     String s = person.getName() + "\t" + person.getCardNumber();   
-                    JLabel result1 = new JLabel(s);
-                     
+                    JLabel searchMatch = new JLabel(s);
+                    patronSearchResultsCenter.add(searchMatch);
                 }
-                //builder.append(person.getName() + "\t" + person.getCardNumber() + "<br>");
-                //patronSearchResultsLabel.add(searchMatches);
                 cl.show(this, patronSearchResult);
-            //    patronSearchResult.add(searchMatches);
             }
         } else if (patronSearchCriteria.equals("Library Card Number")) {
             if (source == searchForPatronButton) {
+                patronSearchResultsCenter.removeAll();
                 patronResults = Library.getLibrary().findPatronsByCardNumber(enterPatronInfo.getText());
-                System.out.println(patronResults);
-                StringBuilder builder = new StringBuilder();
                 for (Patron person : patronResults) {
-                    builder.append(person.getName() + "\t" + person.getCardNumber() + "<br>");
+                    String s = person.getName() + "\t" + person.getCardNumber();
+                    JLabel searchMatch = new JLabel(s);
+                    patronSearchResultsCenter.add(searchMatch);
                 }
-                patronSearchResultsLabel.setText("<html>" + builder.toString());
-                
                 cl.show(this, patronSearchResult);
             }
         }
