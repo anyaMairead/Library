@@ -23,7 +23,8 @@ public class LibraryPanel extends JPanel implements ActionListener {
     private java.util.List<JButton> newSearchButtons = new ArrayList<JButton>();
     private java.util.List<Book> bookResults = new ArrayList<Book>();
     private java.util.List<Patron> patronResults = new ArrayList<Patron>();
-    
+    private Book b; //for use when setting variables of a certian book 
+
     public LibraryPanel() {
         //strings to identify the cards
         initial = "welcome";
@@ -205,13 +206,13 @@ public class LibraryPanel extends JPanel implements ActionListener {
       *@return a JPanel
     **/
     public JPanel makePatronFullInfoPanel() {
-       JPanel patronFullInfoResult = new JPanel();
+       JPanel patronFullInfoResult = new JPanel(new BorderLayout());
        JButton newSearchButton = makeNewSearchButton();
        
        patronInfoLabel = new JLabel();
        
-       patronFullInfoResult.add(patronInfoLabel);
-       patronFullInfoResult.add(newSearchButton);
+       patronFullInfoResult.add(patronInfoLabel, BorderLayout.NORTH);
+       patronFullInfoResult.add(newSearchButton, BorderLayout.SOUTH);
        return patronFullInfoResult;
     }
     
@@ -305,32 +306,32 @@ public class LibraryPanel extends JPanel implements ActionListener {
         } else if (newSearchButtons.contains(source)) { //then it's a newSearchButton
             cl.show(this, initial);
         } else if (source.equals(available)) {
-            //...book.setStatus("available");
-            JOptionPane.showMessageDialog(null, "Book is now available");  //set container to null on all of these to use the default
+            b.setStatus("available");
+            JOptionPane.showMessageDialog(null, b.getTitle() + " is now available");  //set container to null on all of these to use the default
         } else if (source.equals(checkedOut)) {
-            //...book.setStatus("checked out");
-            JOptionPane.showMessageDialog(null, "Book is now checked out");
+            b.setStatus("checked out");
+            JOptionPane.showMessageDialog(null, b.getTitle() + " is now checked out");
         } else if (source.equals(inTransit)) {
-            //...book.setStatus("in transit");
-            JOptionPane.showMessageDialog(null, "Book is now in transit");
+            b.setStatus("in transit");
+            JOptionPane.showMessageDialog(null, b.getTitle() + " is now in transit");
         } else if (source.equals(requested)) {
-            //...book.setStatus("requested");
-            JOptionPane.showMessageDialog(null, "Book is now requested");
+            b.setStatus("requested");
+            JOptionPane.showMessageDialog(null, b.getTitle() + " is now requested");
         } else if (source.equals(buenaVista)) {
-            //...book.setBranchLocation("Buena Vista");
-            JOptionPane.showMessageDialog(null, "Location is now Buena Vista Branch");
+            b.setBranchLocation("Buena Vista");
+            JOptionPane.showMessageDialog(null, b.getTitle() + "'s location is now Buena Vista Branch");
         } else if (source.equals(central)) {
-            //...book.setBranchLocation("Central");
-            JOptionPane.showMessageDialog(null, "Location is now Central Library");
+            b.setBranchLocation("Central");
+            JOptionPane.showMessageDialog(null, b.getTitle() + "'s location is now Central Library");
         } else if (source.equals(northwest)) {
-            //...book.setBranchLocation("Northwest");
-            JOptionPane.showMessageDialog(null, "Location is now Northwest Branch");
+            b.setBranchLocation("Northwest");
+            JOptionPane.showMessageDialog(null, b.getTitle() + "'s location is now Northwest Branch");
         }
 
         if (source instanceof JButton && ((JButton)source).getClientProperty("book") != null) { //find out which result was clicked & set the bookInfoLabel
-            Book b = (Book) ((JButton)source).getClientProperty("book");
+            b = (Book) ((JButton)source).getClientProperty("book");
             bookInfoLabel.setText(b.toString().replace("[","<html>").replaceAll("\\n", "<br>")); //regex for formatting niceness 
-            cl.show(this, bookFullInfo);
+            cl.show(this, bookFullInfo); 
         }
 
         if(source instanceof JButton && ((JButton)source).getClientProperty("patron") != null) {
