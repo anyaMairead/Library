@@ -310,13 +310,13 @@ public class LibraryPanel extends JPanel implements ActionListener {
 
         if (source instanceof JButton && ((JButton)source).getClientProperty("book") != null) { //find out which result was clicked & set the bookInfoLabel
             Book b = (Book) ((JButton)source).getClientProperty("book");
-            bookInfoLabel.setText(b.toString()); 
+            bookInfoLabel.setText(b.toString().replace("[","<html>").replaceAll("\\n", "<br>")); //regex for formatting niceness 
             cl.show(this, bookFullInfo);
         }
 
         if(source instanceof JButton && ((JButton)source).getClientProperty("patron") != null) {
             Patron p = (Patron) ((JButton) source).getClientProperty("patron");
-            patronInfoLabel.setText(p.toString());
+            patronInfoLabel.setText(p.toString().replace("[","<html>").replaceAll("\\n", "<br>")); //regex for formatting niceness
             cl.show(this, patronFullInfo);
         }
                                                                                                                                                 
@@ -402,7 +402,7 @@ public class LibraryPanel extends JPanel implements ActionListener {
                     JButton searchMatch = new JButton(s);
                     searchMatch.setSize(200, 40);
                     searchMatch.setBackground(new Color(0, 197, 205));
-                    searchMatch.putClientProperty("patro", person);
+                    searchMatch.putClientProperty("patron", person);
                     searchMatch.addActionListener(this);
                     patronSearchResultsCenter.add(searchMatch);
                 }

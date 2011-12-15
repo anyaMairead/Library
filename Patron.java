@@ -73,6 +73,6 @@ public class Patron {
       *@return a string representation of a patron
     **/
     public String toString() {
-        return "Name: " + name + "\nLibrary Card Number: " + cardNumber + "\nBooks Checked Out: " + checkedOut + "\nBooks Overdue: " + overdue + "\nBooks Requested: " + requested;
+        return "[Name: " + name + "\nLibrary Card Number: " + cardNumber + "\nBooks Checked Out: " + checkedOut + "\nBooks Overdue: " + overdue + "\nBooks Requested: " + requested;
     }
 }
