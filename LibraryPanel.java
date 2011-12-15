@@ -126,6 +126,7 @@ public class LibraryPanel extends JPanel implements ActionListener {
         location.add(central);
         location.add(inTransit);
         
+        bookFullInfoPanel.add(bookInfoLabel);
         bookFullInfoPanel.add(setBookStatusLabel);
         bookFullInfoPanel.add(available);
         bookFullInfoPanel.add(checkedOut);
@@ -177,6 +178,7 @@ public class LibraryPanel extends JPanel implements ActionListener {
         patronSearchResultsTitle.setForeground(Color.blue);
         patronSearchResultsTitle.setFont(new Font("Times", Font.PLAIN, 12));
 
+        //gridlayout in the center panel for nice-looking results
         patronSearchResultsCenter = new JPanel(new GridLayout(0, 1, 5, 5));
 
         patronSearchResult.add(patronSearchResultsTitle, BorderLayout.NORTH);
@@ -195,9 +197,8 @@ public class LibraryPanel extends JPanel implements ActionListener {
        JButton newSearchButton = makeNewSearchButton();
        
        patronInfoLabel = new JLabel();
-       //JLabel patronLabel = new JLabel(p.toString);
-       //patronFullInfoResult.add(patronLabel);
-
+       
+       patronFullInfoResult.add(patronInfoLabel);
        patronFullInfoResult.add(newSearchButton);
        return patronFullInfoResult;
     }
@@ -284,7 +285,7 @@ public class LibraryPanel extends JPanel implements ActionListener {
     public void actionPerformed(ActionEvent event) { 
         CardLayout cl = (CardLayout)(this.getLayout());
         Object source = event.getSource();
-        System.out.println("Got an event ==> " + source.getClass().getName()+ " with book property " + ((JComponent)source).getClientProperty("book"));
+        
         if (source == bookSearchButton) {
             cl.show(this, bookInitial);
         } else if (source == patronSearchButton) {
@@ -307,6 +308,19 @@ public class LibraryPanel extends JPanel implements ActionListener {
             //...book.setBranchLocation("Northwest");
         }
 
+        if (source instanceof JButton && ((JButton)source).getClientProperty("book") != null) { //find out which result was clicked & set the bookInfoLabel
+            Book b = (Book) ((JButton)source).getClientProperty("book");
+            bookInfoLabel.setText(b.toString()); 
+            cl.show(this, bookFullInfo);
+        }
+
+        if(source instanceof JButton && ((JButton)source).getClientProperty("patron") != null) {
+            Patron p = (Patron) ((JButton) source).getClientProperty("patron");
+            patronInfoLabel.setText(p.toString());
+            cl.show(this, patronFullInfo);
+        }
+                                                                                                                                                
+
         Object bookSearchCriteria = bookCategories.getSelectedItem();
         if (bookSearchCriteria.equals("Title")) {
             if (source == searchForBookButton) {
@@ -318,6 +332,7 @@ public class LibraryPanel extends JPanel implements ActionListener {
                     JButton searchMatch = new JButton(s);
                     searchMatch.setSize(200, 40);
                     searchMatch.setBackground(new Color(0, 197, 205));
+                    searchMatch.putClientProperty("book", item);
                     searchMatch.addActionListener(this);
                     bookSearchResultsCenter.add(searchMatch);
                 }
@@ -334,6 +349,7 @@ public class LibraryPanel extends JPanel implements ActionListener {
                     JButton searchMatch = new JButton(s);
                     searchMatch.setSize(200, 40);
                     searchMatch.setBackground(new Color(0, 197, 205));
+                    searchMatch.putClientProperty("book", item);
                     searchMatch.addActionListener(this);
                     bookSearchResultsCenter.add(searchMatch);
                 } 
@@ -352,18 +368,10 @@ public class LibraryPanel extends JPanel implements ActionListener {
                     searchMatch.setSize(200, 40);
                     searchMatch.setBackground(new Color(0, 197, 205));
                     searchMatch.putClientProperty("book", item);
-                    bookSearchResultsCenter.add(searchMatch);
                     searchMatch.addActionListener(this);
+                    bookSearchResultsCenter.add(searchMatch);
                 } 
                 cl.show(this, bookSearchResult);
-                if (((JButton)source).getClientProperty("book") != null) { //find out which result was clicked & set the bookInfoLabel
-                    System.out.println("Entered if statement");
-                    Book b = (Book) ((JButton)source).getClientProperty("book");
-                    System.out.println(b);
-                    bookInfoLabel.setText(b.toString());
-                    System.out.println(bookInfoLabel.getText());
-                    cl.show(this, bookFullInfo);
-                }
             }
         }
         
@@ -378,6 +386,7 @@ public class LibraryPanel extends JPanel implements ActionListener {
                     JButton searchMatch = new JButton(s);
                     searchMatch.setSize(200, 40);
                     searchMatch.setBackground(new Color(0, 197, 205));
+                    searchMatch.putClientProperty("patron", person);
                     searchMatch.addActionListener(this);
                     patronSearchResultsCenter.add(searchMatch);
                 }
@@ -393,6 +402,7 @@ public class LibraryPanel extends JPanel implements ActionListener {
                     JButton searchMatch = new JButton(s);
                     searchMatch.setSize(200, 40);
                     searchMatch.setBackground(new Color(0, 197, 205));
+                    searchMatch.putClientProperty("patro", person);
                     searchMatch.addActionListener(this);
                     patronSearchResultsCenter.add(searchMatch);
                 }
