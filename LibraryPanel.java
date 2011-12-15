@@ -1,7 +1,8 @@
 /**AUTHOR: Laurence Toal
   *CLASS: CS 230 Data Structures
-  *Final Project Phase 2 - Class Outlines
-  *LAST MODIFIED: 22 November 2011
+  *Final Project
+  *LAST MODIFIED: 15 December 2011
+  *CLASS DESCRIPTION: LibraryPanel is where everything happens!  Not only does it create all GUI screens (adding them to a CardLayout for easy accessibility), this is also where you search for books or patrons using a variety of criteria, and change the status (available, in transit, checked out, requested) or location (Buena Vista, Central, or Northwest) of a book.
 **/
 
 import javax.swing.*;
@@ -94,7 +95,7 @@ public class LibraryPanel extends JPanel implements ActionListener {
       *@return a JPanel
     **/
     public JPanel makeBookFullInfoPanel() {
-        bookFullInfoPanel = new JPanel();
+        bookFullInfoPanel = new JPanel(new BorderLayout(10, 10));
         JButton newSearchButton = makeNewSearchButton();                       
        
         bookInfoLabel = new JLabel();  
@@ -124,19 +125,30 @@ public class LibraryPanel extends JPanel implements ActionListener {
         northwest.addActionListener(this);
         location.add(buenaVista);
         location.add(central);
-        location.add(inTransit);
+        location.add(northwest);
         
-        bookFullInfoPanel.add(bookInfoLabel);
-        bookFullInfoPanel.add(setBookStatusLabel);
-        bookFullInfoPanel.add(available);
-        bookFullInfoPanel.add(checkedOut);
-        bookFullInfoPanel.add(inTransit);
-        bookFullInfoPanel.add(requested);
-        bookFullInfoPanel.add(setBookLocationLabel);
-        bookFullInfoPanel.add(buenaVista);
-        bookFullInfoPanel.add(central);
-        bookFullInfoPanel.add(northwest);
-        bookFullInfoPanel.add(newSearchButton);
+        //top half of the center panel: book status
+        JPanel bookFullInfoCenterTop = new JPanel();
+        bookFullInfoCenterTop.add(setBookStatusLabel);
+        bookFullInfoCenterTop.add(available);
+        bookFullInfoCenterTop.add(checkedOut);
+        bookFullInfoCenterTop.add(inTransit);
+        bookFullInfoCenterTop.add(requested);
+
+        //bottom half of center panel: book location
+        JPanel bookFullInfoCenterBottom = new JPanel();
+        bookFullInfoCenterBottom.add(setBookLocationLabel);
+        bookFullInfoCenterBottom.add(buenaVista);
+        bookFullInfoCenterBottom.add(central);
+        bookFullInfoCenterBottom.add(northwest);
+
+        JPanel bookFullInfoCenter = new JPanel(new GridLayout(2, 1, 2, 2));
+        bookFullInfoCenter.add(bookFullInfoCenterTop);
+        bookFullInfoCenter.add(bookFullInfoCenterBottom);
+
+        bookFullInfoPanel.add(bookInfoLabel, BorderLayout.NORTH);
+        bookFullInfoPanel.add(bookFullInfoCenter, BorderLayout.CENTER);
+        bookFullInfoPanel.add(newSearchButton, BorderLayout.SOUTH);
         
         return bookFullInfoPanel;
     }
@@ -294,18 +306,25 @@ public class LibraryPanel extends JPanel implements ActionListener {
             cl.show(this, initial);
         } else if (source.equals(available)) {
             //...book.setStatus("available");
+            JOptionPane.showMessageDialog(null, "Book is now available");  //set container to null on all of these to use the default
         } else if (source.equals(checkedOut)) {
             //...book.setStatus("checked out");
+            JOptionPane.showMessageDialog(null, "Book is now checked out");
         } else if (source.equals(inTransit)) {
             //...book.setStatus("in transit");
+            JOptionPane.showMessageDialog(null, "Book is now in transit");
         } else if (source.equals(requested)) {
             //...book.setStatus("requested");
+            JOptionPane.showMessageDialog(null, "Book is now requested");
         } else if (source.equals(buenaVista)) {
             //...book.setBranchLocation("Buena Vista");
+            JOptionPane.showMessageDialog(null, "Location is now Buena Vista Branch");
         } else if (source.equals(central)) {
             //...book.setBranchLocation("Central");
+            JOptionPane.showMessageDialog(null, "Location is now Central Library");
         } else if (source.equals(northwest)) {
             //...book.setBranchLocation("Northwest");
+            JOptionPane.showMessageDialog(null, "Location is now Northwest Branch");
         }
 
         if (source instanceof JButton && ((JButton)source).getClientProperty("book") != null) { //find out which result was clicked & set the bookInfoLabel

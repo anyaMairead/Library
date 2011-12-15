@@ -137,7 +137,7 @@ public class Book {
       *@return a string represenaiton of the book
     **/
     public String toString() {
-        return "[Title: " + title + "\nAuthor: " + author + "\nYear Published: " + yearPublished + "\nLibrary: " + branchLocation + "\nCall Number: " + callNumber + "\tBarcode: " + barcodeNumber + "\nOverdue? " + isOverdue + "\tFine: " + overdueFee; 
+        return "[Title: " + title + "\nAuthor: " + author + "\nYear Published: " + yearPublished + "\nLibrary: " + branchLocation + "\nCall Number: " + callNumber + "\nBarcode: " + barcodeNumber + "\nOverdue? " + isOverdue + "\nFine: " + overdueFee; 
     }
  
 }
