@@ -96,14 +96,13 @@ public class Library {
     public void addPatron(Patron p) {
         patrons.add(p);
         
-        String searchName = p.getName().toLowerCase().replaceAll(" ", "").trim();
+        String searchName = p.getName().toLowerCase();
         String[] nameWords = searchName.split("\\s+");
         for (String term : nameWords) {
             if (!patronNameIndex.containsKey(term)) {
                 patronNameIndex.put(term, new ArrayList<Patron>());
-            } else {
-                patronNameIndex.get(term).add(p);
             }
+                patronNameIndex.get(term).add(p);
         }
 
         String searchCardNumber = p.getCardNumber();
