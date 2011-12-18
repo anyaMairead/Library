@@ -118,7 +118,7 @@ public class LibraryPanel extends JPanel implements ActionListener {
         
         //radio buttons to set location of book
         location = new ButtonGroup();
-        buenaVista = new JRadioButton("Buena Vista Branch");
+        buenaVista = new JRadioButton("Buena Vista");
         buenaVista.addActionListener(this);
         central = new JRadioButton("Central");
         central.addActionListener(this);
@@ -308,24 +308,31 @@ public class LibraryPanel extends JPanel implements ActionListener {
         } else if (source.equals(available)) {
             b.setStatus("available");
             JOptionPane.showMessageDialog(null, b.getTitle() + " is now available");  //set container to null on all of these to use the default
+            bookInfoLabel.setText(b.toString().replace("[","<html>").replaceAll("\\n", "<br>"));
         } else if (source.equals(checkedOut)) {
             b.setStatus("checked out");
             JOptionPane.showMessageDialog(null, b.getTitle() + " is now checked out");
+            bookInfoLabel.setText(b.toString().replace("[","<html>").replaceAll("\\n", "<br>")); 
         } else if (source.equals(inTransit)) {
             b.setStatus("in transit");
             JOptionPane.showMessageDialog(null, b.getTitle() + " is now in transit");
+            bookInfoLabel.setText(b.toString().replace("[","<html>").replaceAll("\\n", "<br>"));
         } else if (source.equals(requested)) {
             b.setStatus("requested");
             JOptionPane.showMessageDialog(null, b.getTitle() + " is now requested");
+            bookInfoLabel.setText(b.toString().replace("[","<html>").replaceAll("\\n", "<br>"));
         } else if (source.equals(buenaVista)) {
             b.setBranchLocation("Buena Vista");
             JOptionPane.showMessageDialog(null, b.getTitle() + "'s location is now Buena Vista Branch");
+            bookInfoLabel.setText(b.toString().replace("[","<html>").replaceAll("\\n", "<br>"));
         } else if (source.equals(central)) {
             b.setBranchLocation("Central");
             JOptionPane.showMessageDialog(null, b.getTitle() + "'s location is now Central Library");
+            bookInfoLabel.setText(b.toString().replace("[","<html>").replaceAll("\\n", "<br>"));
         } else if (source.equals(northwest)) {
             b.setBranchLocation("Northwest");
             JOptionPane.showMessageDialog(null, b.getTitle() + "'s location is now Northwest Branch");
+            bookInfoLabel.setText(b.toString().replace("[","<html>").replaceAll("\\n", "<br>"));
         }
 
         if (source instanceof JButton && ((JButton)source).getClientProperty("book") != null) { //find out which result was clicked & set the bookInfoLabel

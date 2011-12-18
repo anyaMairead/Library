@@ -1,7 +1,8 @@
 /**AUTHOR: Laurence Toal
   *CLASS: CS 230 Data Structures
-  *Final Project - Library class for organizing Books and Patrons
-  *LAST MODIFIED: 11 December 2011
+  *Final Project
+  *LAST MODIFIED: 14 December 2011
+  *CLASS DESCRIPTION: Creates, organizes, and searches hashmaps of Books and Patrons
 **/
 
 import java.util.*;

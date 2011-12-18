@@ -1,7 +1,8 @@
 /**AUTHOR: Laurence Toal
   *CLASS: CS 230 Data Structures
-  *Final Project Phase 2 - Class outlines
-  *LAST MODIFIED: 22 November 2011
+  *Final Project
+  *LAST MODIFIED: 15 December 2011
+  *CLASS DESCRIPTION: Contains all the information about a book object
 **/
 
 public class Book {

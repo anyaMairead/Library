@@ -1,7 +1,8 @@
 /**AUTHOR: Laurence Toal
   *CLASS: CS 230 Data Structures
-  *Final Project Phase 2 - Class Outlines
-  *LAST MODIFIED: 22 November 2011
+  *Final Project
+  *LAST MODIFIED: 12 December 2011
+  *Class Description: Launches the GUI
 **/
 
 import javax.swing.*;
