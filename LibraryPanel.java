@@ -340,6 +340,8 @@ public class LibraryPanel extends JPanel implements ActionListener {
             cl.show(this, patronInitial);
         } else if (newSearchButtons.contains(source)) { //then it's a newSearchButton
             cl.show(this, initial);
+        } else if (backButtons.contains(source)) {
+            cl.previous(this);
         } else if (source.equals(available)) {
             b.setStatus("available");
             JOptionPane.showMessageDialog(null, b.getTitle() + " is now available");  //set container to null on all of these to use the default
