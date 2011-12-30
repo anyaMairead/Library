@@ -7,6 +7,9 @@
 
 import java.util.*;
 import java.io.*;
+import java.awt.Container;
+import java.awt.event.*;
+import javax.swing.JOptionPane;
 
 public class Library {
     //instance variables
@@ -20,6 +23,7 @@ public class Library {
     private Map<String, List<Book>> barcodeIndex;
     private Map<String, List<Patron>> patronNameIndex;
     private Map<String, List<Patron>> patronCardIndex;
+    private Book b;
     private static Library INSTANCE;
     
     /**Constructor method to create a new library
