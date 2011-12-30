@@ -380,8 +380,8 @@ public class LibraryPanel extends JPanel implements ActionListener {
             cl.show(this, patronInitial);
         } else if (newSearchButtons.contains(source)) { //then it's a newSearchButton
             cl.show(this, initial);
-        } else if (backButtons.contains(source)) {
-            cl.previous(this);
+        } else if (backButtons.contains(source)) {  //then it's a back button
+            cl.previous(this); //doesn't work correctly - need to add each screen to a stack as it becomes visible to preserve the order
         } else if (source.equals(available)) {
             b.setStatus("available");
             JOptionPane.showMessageDialog(null, b.getTitle() + " is now available");  //set container to null on all of these to use the default
@@ -389,7 +389,7 @@ public class LibraryPanel extends JPanel implements ActionListener {
         } else if (source.equals(checkedOut)) {
             b.setStatus("checked out"); 
             String input = JOptionPane.showInputDialog(null, "Please enter the name or card number of the patron \n" + "to check " + b.getTitle() + " out to"); //get patron to check the book out to
-            checkOutBook(input);
+            Library.getLibrary().checkOutBook(input);
             JOptionPane.showMessageDialog(null, b.getTitle() + " is now checked out");
             bookInfoLabel.setText(b.toString().replace("[","<html>").replaceAll("\\n", "<br>")); 
         } else if (source.equals(inTransit)) {

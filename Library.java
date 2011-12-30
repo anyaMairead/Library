@@ -215,5 +215,21 @@ public class Library {
         return new ArrayList<Patron>();   
     }   
 
+    /**Checks a book out to a particular patron
+      *
+      *@param patronToGetBook the patron to check the book out to
+    **/
+    public void checkOutBook(String patronToGetBook) {
+        if (patronToGetBook.matches("\\d+")) {  //a library card number was entered
+            //....
+        } else if (patronToGetBook.matches("[a-zA-Z]+( [a-zA-Z]+)*")) {  //a name was entered
+            //....
+        } else {
+            JOptionPane.showMessageDialog(null, "Not a valid input");
+            patronToGetBook = JOptionPane.showInputDialog(null, "Please enter the name or card number of the patron \n" + "to check " + b.getTitle() + " out to"); //get patron to check the book out to
+            checkOutBook(patronToGetBook);
+        }
+    }
+ 
 
 }
