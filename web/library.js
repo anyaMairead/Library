@@ -12,12 +12,29 @@ window.addEvent("domready", function() {
 	    })
     }
 
+    function displayBookDetail(book) {
+        selectPanel("bookDetail");
+        $("individualBook").set("html", JSON.stringify(book));
+    }
+
     function displayBookResults(results) {
         selectPanel("bookSearchResults");
+        $("bookResultList").set("html", "");
         $("numBookResults").set("html", 
           "Result of search through book catalogue: " + results.length + " books found");
-        $("bookResultList").set("html", 
-          results.map(function(b) { return b.title + " by " + b.author;}).join("<br/>"));
+          
+        results.forEach(function(book) {
+        	var e = new Element("div", {
+        	    html: book.title + " by " + book.author,
+        	    events: {
+        	    	click: function() {displayBookDetail(book);}
+        	    }
+        	});
+        	$("bookResultList").adopt(e);
+        });
+          
+        //$("bookResultList").set("html", 
+          //results.map(function(b) { return b.title + " by " + b.author;}).join("<br/>"));
     }
     
     function searchForBook() {
