@@ -21,6 +21,7 @@ public class Library {
     private Map<String, List<Book>> titleIndex;
     private Map<String, List<Book>> authorIndex;
     private Map<String, List<Book>> barcodeIndex;
+    private Map<String, List<Book>> locationIndex;
     private Map<String, List<Patron>> patronNameIndex;
     private Map<String, List<Patron>> patronCardIndex;
     private Book b;
@@ -37,6 +38,7 @@ public class Library {
         this.titleIndex = new HashMap<String, List<Book>>();
         this.authorIndex = new HashMap<String, List<Book>>();
         this.barcodeIndex = new HashMap<String, List<Book>>();
+        this.locationIndex = new HashMap<String, List<Book>>();
         this.patronNameIndex = new HashMap<String, List<Patron>>();
         this.patronCardIndex = new HashMap<String, List<Patron>>();
 
@@ -89,9 +91,15 @@ public class Library {
 
         String searchBarcode = b.getBarcodeNumber();
         if (!barcodeIndex.containsKey(searchBarcode)) { 
-             barcodeIndex.put(searchBarcode, new ArrayList<Book>());
+            barcodeIndex.put(searchBarcode, new ArrayList<Book>());
         }
         barcodeIndex.get(searchBarcode).add(b);
+        
+        String searchLocation = b.getBranchLocation();
+        if (!locationIndex.containsKey(searchLocation)) {
+            locationIndex.put(searchLocation, new ArrayList<Book>());
+        }
+        locationIndex.get(searchLocation).add(b);
     }
     
     /**Adds patrons to the appropriate HashMaps
@@ -191,6 +199,18 @@ public class Library {
         }
     }
 
+    /**Displays the result of a search limited by which branch location the books are at
+      * 
+      *@param location the branch whose books we want to return
+    **/
+    public List<Book> findBooksByLocation(String location) {
+        if (locationIndex.containsKey(location)) { //we've found a match
+            return locationIndex.get(location);
+        } else { //we don't have a book at that branch
+            return new ArrayList<Book>();
+        }
+    }
+      
     /**Displays the result of a search for a patron by library card number
       *
       *@param cardNumber the library card number to search for

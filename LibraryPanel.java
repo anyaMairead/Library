@@ -15,7 +15,7 @@ public class LibraryPanel extends JPanel implements ActionListener {
     private JPanel cards, initialPanel, bookSearchResultPanel, bookFullInfoPanel, patronSearchResultPanel, patronFullInfoPanel, bookPanel, patronPanel, bookSearchResultsCenter, patronSearchResultsCenter;
     private JLabel welcomeLabel, bookSearchResultsLabel, patronSearchResultsLabel, setBookStatusLabel, selectBookCategoryLabel, selectPatronCategoryLabel, setBookLocationLabel, bookInfoLabel, patronInfoLabel;
     private JButton patronSearchButton, bookSearchButton, searchForBookButton, searchForPatronButton; 
-    private JComboBox bookCategories, patronCategories;
+    private JComboBox bookCategories, patronCategories, bookLocation;
     private String initial, bookSearchResult, bookFullInfo, patronSearchResult, patronFullInfo, bookInitial, patronInitial;
     private JTextField enterBookInfo, enterPatronInfo;
     private JRadioButton buenaVista, central, northwest, available, inTransit, requested, checkedOut;
@@ -298,10 +298,18 @@ public class LibraryPanel extends JPanel implements ActionListener {
         bookCategories.setSelectedIndex(0);
         bookCategories.addActionListener(this);
         
+        bookLocation = new JComboBox();
+        bookLocation.addItem("All libraries");
+        bookLocation.addItem("Buena Vista");
+        bookLocation.addItem("Central");
+        bookLocation.addItem("Northwest");
+        bookLocation.setSelectedIndex(0);
+        bookLocation.addActionListener(this);
+        
         JPanel bookDropdownAndButtons = new JPanel();
         bookDropdownAndButtons.add(bookCategories);
+        bookDropdownAndButtons.add(bookLocation);
         bookDropdownAndButtons.add(searchForBookButton);
-        bookDropdownAndButtons.add(backButton);
         
         JPanel infoAndCategory = new JPanel(new BorderLayout(10, 20));
         infoAndCategory.add(enterBookInfo, BorderLayout.NORTH); 
