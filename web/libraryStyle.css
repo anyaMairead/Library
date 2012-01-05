@@ -1,0 +1,10 @@
+body {
+	margin: 0 auto;
+	width: 960px;
+    font-family: Helvetica, Georgia, Sans-Serif;
+    text-align: center;
+}
+
+h1 {
+	color: navy;
+}

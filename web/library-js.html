@@ -1,0 +1,71 @@
+<!DOCTYPE HTML>
+<html>
+
+  <head>
+    <meta charset="UTF-8" />
+    <title>Library</title>
+    <script src="mootools.js"></script>
+    <script src="mootools-more.js"></script>
+    <script src="book.js"></script>
+    <script src="bookData.js"></script>
+    <script src="library.js"></script>
+    <link rel="stylesheet" href="libraryStyle.css"/>
+  </head>
+  
+  <body>
+      <div id="initial">
+          <h1>Library Search Program</h1>
+          <p>Would you like to search for a book or a patron?</p>
+          <p><input type="button" value="Book" id="bookButton"/>
+              <input type="button" value="Patron" id="patronButton"/>
+          </p>
+      </div> 
+           
+      <div id="bookSearchForm">
+          <p>Please enter information and click search</p>
+          <input type="text" id="bookSearchField"/>
+          <select id="bookCriteriaDropdown">
+              <option value="title">Title</option>
+              <!--<option value="author">Author</option>-->
+              <option value="barcode">Barcode Number</option>
+          </select>
+          <input type="button" value="Search for Book" id="searchForBookButton"/>
+          <input type="button" value="New Search" class="newSearchButton"/>
+      </div>
+      
+      <div id="bookSearchResults">
+          <p id="numBookResults"></p>
+          <p id="bookResultList"></p>
+          <input type="button" value="New Search" class="newSearchButton"/>
+      </div>
+      
+      <div id="bookDetail">
+          <p>Details will go here</p>
+          <input type="button" value="New Search" class="newSearchButton"/>
+      </div>
+      
+      <div id="patronSearchForm">
+          <p>Please enter information and click search</p>
+          <input type="text" id="patronSearchField"/>
+          <select>
+              <option id="patronName">Name</option>
+              <option id="libraryCardNumber">Library Card Number</option>
+          </select>
+          <input type="button" value="Search for Patron" id="searchForPatronButton"/>
+          <input type="button" value="New Search" class="newSearchButton"/>
+      </div>
+      
+      <div id="patronSearchResults">
+          <p>Search results will go here</p>
+          <input type="button" value="New Search" class="newSearchButton"/>
+      </div>
+      
+      <div id="patronDetail">
+          <p>Details will go here</p>
+          <input type="button" value="New Search" class="newSearchButton"/>
+      </div>
+      
+
+</body>
+
+</html>

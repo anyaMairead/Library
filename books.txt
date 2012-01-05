@@ -20,7 +20,7 @@ Damage Control, Denise Hamilton, 2011, Buena Vista, M HAMIL, 00019, available
 Damage Control, Denise Hamilton, 2011, Central, M HAMIL, 00020, checked out
 Damage Control, Denise Hamilton, 2011, Buena Vista, M HAMIL, 00021, in transit
 The Jasmine Trade, Denise Hamilton, 2011, Buena Vista, M HAMIL, 00022, available
-The Jasmine Trade, Denise Hamilton, 2001, Central, PAPERBACK M HAMIL, 0023, available
+The Jasmine Trade, Denise Hamilton, 2001, Central, PAPERBACK M HAMIL, 00023, available
 The Jasmine Trade, Denise Hamilton, 2001, Central, M HAMIL, 00024, available
 Sugar Skull, Denise Hamilton, 2003, Central, M HAMIL, 00025, available
 Sugar Skull, Denise Hamilton, 2003, Central, PAPERBACK M HAMIL, 00026, checked out
