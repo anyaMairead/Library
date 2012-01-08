@@ -9,16 +9,17 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.*;
+import java.lang.Integer;
 
 public class LibraryPanel extends JPanel implements ActionListener {
   
     private JPanel cards, initialPanel, bookSearchResultPanel, bookFullInfoPanel, patronSearchResultPanel, patronFullInfoPanel, bookPanel, patronPanel, bookSearchResultsCenter, patronSearchResultsCenter;
     private JLabel welcomeLabel, bookSearchResultsLabel, patronSearchResultsLabel, setBookStatusLabel, selectBookCategoryLabel, selectPatronCategoryLabel, setBookLocationLabel, bookInfoLabel, patronInfoLabel;
-    private JButton patronSearchButton, bookSearchButton, searchForBookButton, searchForPatronButton; 
+    private JButton patronSearchButton, bookSearchButton, searchForBookButton, searchForPatronButton, markOverdueButton; 
     private JComboBox bookCategories, patronCategories, bookLocation;
     private String initial, bookSearchResult, bookFullInfo, patronSearchResult, patronFullInfo, bookInitial, patronInitial;
     private JTextField enterBookInfo, enterPatronInfo;
-    private JRadioButton buenaVista, central, northwest, available, inTransit, requested, checkedOut;
+    private JRadioButton buenaVista, central, northwest, available, inTransit, requested, checkedOut, overdue;
     private ButtonGroup status, location;
     private java.util.List<JButton> newSearchButtons = new ArrayList<JButton>();
     private java.util.List<JButton> backButtons = new ArrayList<JButton>();
@@ -47,6 +48,10 @@ public class LibraryPanel extends JPanel implements ActionListener {
         setBookStatusLabel = new JLabel("Status of book:");
         setBookStatusLabel.setForeground(Color.blue);
         setBookStatusLabel.setFont(new Font("Times", Font.PLAIN, 12));
+        
+        markOverdueButton = new JButton("Mark Overdue");
+        markOverdueButton.addActionListener(this);
+        markOverdueButton.setBackground(new Color(132, 112, 255));
 
         setBookLocationLabel = new JLabel("Location of book:");
         setBookLocationLabel.setForeground(Color.blue);
@@ -149,6 +154,10 @@ public class LibraryPanel extends JPanel implements ActionListener {
         bookFullInfoCenterTop.add(checkedOut);
         bookFullInfoCenterTop.add(inTransit);
         bookFullInfoCenterTop.add(requested);
+        
+        //middle of center panel: overdue handling
+        JPanel bookFullInfoCenterMiddle = new JPanel();
+        bookFullInfoCenterMiddle.add(markOverdueButton);
 
         //bottom half of center panel: book location
         JPanel bookFullInfoCenterBottom = new JPanel();
@@ -157,8 +166,9 @@ public class LibraryPanel extends JPanel implements ActionListener {
         bookFullInfoCenterBottom.add(central);
         bookFullInfoCenterBottom.add(northwest);
 
-        JPanel bookFullInfoCenter = new JPanel(new GridLayout(2, 1, 2, 2));
+        JPanel bookFullInfoCenter = new JPanel(new GridLayout(3, 1, 2, 2));
         bookFullInfoCenter.add(bookFullInfoCenterTop);
+        bookFullInfoCenter.add(bookFullInfoCenterMiddle);
         bookFullInfoCenter.add(bookFullInfoCenterBottom);
 
         JPanel buttonPanel = new JPanel();
@@ -211,7 +221,7 @@ public class LibraryPanel extends JPanel implements ActionListener {
         JButton newSearchButton = makeNewSearchButton();
         JButton backButton = makeBackButton();
 
-        JLabel patronSearchResultsTitle = new JLabel("Result of search through patron catalogue...", SwingConstants.CENTER);
+        JLabel patronSearchResultsTitle = new JLabel("Result of search through patron catalogue", SwingConstants.CENTER);
         patronSearchResultsTitle.setForeground(Color.blue);
         patronSearchResultsTitle.setFont(new Font("Times", Font.PLAIN, 12));
 
@@ -362,19 +372,6 @@ public class LibraryPanel extends JPanel implements ActionListener {
 
         return patronPanel;
     }
-    
-    //probably should move to the Library class
-    public void checkOutBook(String patronToGetBook) {
-        if (patronToGetBook.matches("\\d+")) {  //a library card number was entered
-            //....
-        } else if (patronToGetBook.matches("[a-zA-Z]+( [a-zA-Z]+)*")) {  //a name was entered
-            //....
-        } else {
-            JOptionPane.showMessageDialog(null, "Not a valid input");
-            patronToGetBook = JOptionPane.showInputDialog(null, "Please enter the name or card number of the patron \n" + "to check " + b.getTitle() + " out to"); //get patron to check the book out to
-            checkOutBook(patronToGetBook);
-        }
-    }
 
     /**Handles events. 
     **/
@@ -398,7 +395,11 @@ public class LibraryPanel extends JPanel implements ActionListener {
             b.setStatus("checked out"); 
             String input = JOptionPane.showInputDialog(null, "Please enter the name or card number of the patron \n" + "to check " + b.getTitle() + " out to"); //get patron to check the book out to
             Library.getLibrary().checkOutBook(input);
-            JOptionPane.showMessageDialog(null, b.getTitle() + " is now checked out");
+            if (input.matches("\\d+")) {
+                JOptionPane.showMessageDialog(null, b.getTitle() + " is now checked out to the patron with card number " + input);
+            } else {
+                JOptionPane.showMessageDialog(null, b.getTitle() + " is now checked out to " + input);
+            }	
             bookInfoLabel.setText(b.toString().replace("[","<html>").replaceAll("\\n", "<br>")); 
         } else if (source.equals(inTransit)) {
             b.setStatus("in transit");
@@ -420,6 +421,11 @@ public class LibraryPanel extends JPanel implements ActionListener {
             b.setBranchLocation("Northwest");
             JOptionPane.showMessageDialog(null, b.getTitle() + "'s location is now Northwest Branch");
             bookInfoLabel.setText(b.toString().replace("[","<html>").replaceAll("\\n", "<br>"));
+        } else if (source.equals(markOverdueButton)) {
+        	b.setOverdue();
+        	int daysOverdue = Integer.parseInt(JOptionPane.showInputDialog(null, "Please enter the number of days overdue:"));
+        	b.calculateFee(daysOverdue);
+        	bookInfoLabel.setText(b.toString().replace("[","<html>").replaceAll("\\n", "<br>"));
         }
 
         if (source instanceof JButton && ((JButton)source).getClientProperty("book") != null) { //find out which result was clicked & set the bookInfoLabel

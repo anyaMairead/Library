@@ -21,8 +21,7 @@ public class Book {
     /**Constructs a book object given a title, author, year published,
       *location, call number, barcode number, and status
     **/
-    public Book(String title, String author, String yearPublished, String branchLocation, String callNumber, 
-                String barcodeNumber, String status) {
+    public Book(String title, String author, String yearPublished, String branchLocation, String callNumber, String barcodeNumber, String status) {
        this.title = title;
        this.author = author; 
        this.yearPublished = yearPublished;
@@ -117,7 +116,7 @@ public class Book {
       *@param days an int representing how many days overdue the book is
       *@return
     **/
-    public void setOverdue(int days) {
+    public void setOverdue() {
         this.isOverdue = true;
     }
 
@@ -138,7 +137,7 @@ public class Book {
       *@return a string represenaiton of the book
     **/
     public String toString() {
-        return "[Title: " + title + "\nAuthor: " + author + "\nYear Published: " + yearPublished + "\nLibrary: " + branchLocation + "\nStatus: " + status + "\nCall Number: " + callNumber + "\nBarcode: " + barcodeNumber + "\nOverdue? " + isOverdue + "\nFine: " + overdueFee; 
+        return "[Title: " + title + "\nAuthor: " + author + "\nYear Published: " + yearPublished + "\nLibrary: " + branchLocation + "\nStatus: " + status + "\nCall Number: " + callNumber + "\nBarcode: " + barcodeNumber + "\nOverdue? " + isOverdue + "\nFine: $" + overdueFee; 
     }
  
 }
